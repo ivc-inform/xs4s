@@ -21,12 +21,20 @@ lazy val core = project.settings(
     credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
 )
 
+def download(url: URL, to: File) = {
+    import sbt.io._
+    import sbt.io.IO._
+    Using.urlInputStream(url) { inputStream =>
+        transfer(inputStream, to)
+    }
+}
+
 lazy val examples = project.dependsOn(core).settings(
     run := ((run in Runtime) dependsOn(downloadCarparks, downloadXmark)).evaluated,
     runMain := ((runMain in Runtime) dependsOn(downloadCarparks, downloadXmark)).evaluated,
     downloadCarparks := {
         import sbt._
-        import IO._
+        import io.IO._
         if (!file("downloads/carparks-data").exists()) {
             download(url("http://81.17.70.199/carparks/data.zip"), file("downloads/carparks-data.zip"))
             unzip(file("downloads/carparks-data.zip"), file("downloads/carparks-data"))
