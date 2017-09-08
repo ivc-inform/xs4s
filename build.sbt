@@ -22,8 +22,8 @@ lazy val core = project.settings(
 )
 
 lazy val examples = project.dependsOn(core).settings(
-    run := ((run in Runtime) dependsOn(downloadCarparks, downloadXmark)).value,
-    runMain := ((runMain in Runtime) dependsOn(downloadCarparks, downloadXmark)).value,
+    run := ((run in Runtime) dependsOn(downloadCarparks, downloadXmark)).evaluated,
+    runMain := ((runMain in Runtime) dependsOn(downloadCarparks, downloadXmark)).evaluated,
     downloadCarparks := {
         import sbt._
         import IO._
