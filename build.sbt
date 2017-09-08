@@ -8,7 +8,7 @@ lazy val core = project.settings(
     "org.codehaus.woodstox" % "woodstox-core-asl" % "4.4.1",
     "org.compass-project" % "compass" % "2.2.0",
     "org.scalatest" %% "scalatest" % "3.0.0" % "test",
-    "org.scala-lang.modules" %% "scala-xml" % "1.0.5"
+    "org.scala-lang.modules" %% "scala-xml" % "1.0.6"
   ),
   name := "xs4s",
   publishMavenStyle := true,
@@ -47,8 +47,8 @@ lazy val core = project.settings(
 )
 
 lazy val examples = project.dependsOn(core).settings(
-  run <<= (run in Runtime) dependsOn(downloadCarparks, downloadXmark),
-  runMain <<= (runMain in Runtime) dependsOn(downloadCarparks, downloadXmark),
+  run := ((run in Runtime) dependsOn(downloadCarparks, downloadXmark)).evaluated,
+  runMain := ((runMain in Runtime) dependsOn(downloadCarparks, downloadXmark)).evaluated,
   downloadCarparks := {
     import sbt._
     import IO._
