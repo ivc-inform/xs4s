@@ -6,6 +6,8 @@ import javax.xml.stream.XMLInputFactory
 import com.scalawilliam.xs4s.Implicits._
 import com.scalawilliam.xs4s.XmlElementExtractor
 
+import scala.collection.parallel.immutable.ParSeq
+
 object ComputeBritainsRegionalMinimumParkingCosts extends App {
 
   val xmlInputfactory = XMLInputFactory.newInstance()
@@ -13,7 +15,7 @@ object ComputeBritainsRegionalMinimumParkingCosts extends App {
   // http://data.gov.uk/dataset/car-parks
   val splitter = XmlElementExtractor.collectElements(_.last == "CarPark")
 
-  val regionMinCosts = (1 to 8).par.flatMap { i =>
+  val regionMinCosts: ParSeq[(String, Int)] = (1 to 8).par.flatMap { i =>
     val fileReader = new FileReader(s"downloads/carparks-data/CarParkData_$i.xml")
     val reader = xmlInputfactory.createXMLEventReader(fileReader)
     try {
@@ -31,7 +33,7 @@ object ComputeBritainsRegionalMinimumParkingCosts extends App {
     .mapValues { regionCosts => regionCosts.map { case (region, cost) => cost } }
     .mapValues(costs => costs.sum / costs.size)
 
-  val sortedParkingCosts = regionMinimumParkingCosts.toList.sortBy { case (region, cost) => -cost }
+  val sortedParkingCosts = regionMinimumParkingCosts.toList.sortBy { case (region, cost) => cost }.reverse
 
   sortedParkingCosts foreach println
 

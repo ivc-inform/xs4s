@@ -25,16 +25,8 @@ def download(url: URL, to: File) = {
 }
 
 lazy val examples = project.dependsOn(core).settings(
-    run := ((run in Runtime) dependsOn(downloadCarparks, downloadXmark)).evaluated,
-    runMain := ((runMain in Runtime) dependsOn(downloadCarparks, downloadXmark)).evaluated,
-    downloadCarparks := {
-        import sbt._
-        import IO._
-        if (!file("downloads/carparks-data").exists()) {
-            download(url("https://data.gov.uk/dataset/car-parks/IF064_052_201412160800.zip"), file("downloads/carparks-data.zip"))
-            unzip(file("downloads/carparks-data.zip"), file("downloads/carparks-data"))
-        }
-    },
+    run := ((run in Runtime) dependsOn(downloadXmark)).evaluated,
+    runMain := ((runMain in Runtime) dependsOn(downloadXmark)).evaluated,
     downloadXmark := {
         if (!file("downloads/xmark4.xml").exists()) {
             download(url("https://github.com/Saxonica/XT-Speedo/blob/master/data/xmark-tests/xmark4.xml?raw=true"), file("downloads/xmark4.xml"))
@@ -42,6 +34,5 @@ lazy val examples = project.dependsOn(core).settings(
     }
 )
 
-lazy val downloadCarparks = taskKey[Unit]("Download carparks task")
 
 lazy val downloadXmark = taskKey[Unit]("Download speedo")
