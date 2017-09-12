@@ -31,7 +31,7 @@ lazy val examples = project.dependsOn(core).settings(
         import sbt._
         import IO._
         if (!file("downloads/carparks-data").exists()) {
-            download(url("http://81.17.70.199/carparks/data.zip"), file("downloads/carparks-data.zip"))
+            download(url("https://data.gov.uk/dataset/car-parks/IF064_052_201412160800.zip"), file("downloads/carparks-data.zip"))
             unzip(file("downloads/carparks-data.zip"), file("downloads/carparks-data"))
         }
     },
