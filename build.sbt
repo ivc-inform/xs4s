@@ -10,7 +10,7 @@ lazy val core = project.settings(
         "xmlunit" % "xmlunit" % "1.6",
         "org.codehaus.woodstox" % "woodstox-core-asl" % "4.4.1",
         "org.compass-project" % "compass" % "2.2.0",
-        "org.scalatest" %% "scalatest" % "3.0.3" % "test",
+        "org.scalatest" %% "scalatest" % "3.0.4" % Test,
         "org.scala-lang.modules" %% "scala-xml" % "1.0.6"
     ),
     name := "xs4s"
